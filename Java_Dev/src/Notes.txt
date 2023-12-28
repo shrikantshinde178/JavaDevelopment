@@ -1,0 +1,9 @@
+Notes: 
+
+
+
+LinkedHashMap:
+	- Elements are stored in the order as per entered.
+	- LinkedHashMap cannot contain duplicate keys.
+	- LinkedHashMap allows both null keys and null values.
+	- Order is based on the most recently accessed elements.
