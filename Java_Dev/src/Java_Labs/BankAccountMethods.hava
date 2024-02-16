@@ -1,0 +1,82 @@
+// Question:
+
+// Imagine you are designing a simple banking system. Write a Java program that simulates a bank account. Implement the following:
+// Task 1:
+//   Create a custom exception, Insufficient Funds Exception, that is thrown when an attempt is made to withdraw more money than the account balance.
+// Task 2: 
+//   Implement a method void perform Transaction (double amount) that allows both tdeposits and withdrawals. If a withdrawal exceeds the account balance, throw theInsufficent FundsException and ensure the transaction is rolled back, leaving the account balance unchanged.
+// Task 3:
+//   Demonstrate the usage of your program with multiple transactions, including scenarios where exceptions are thrown and caught.
+
+// Solution:
+
+// Custom exception for insufficient funds
+class InsufficientFundsException extends Exception {
+    public InsufficientFundsException(String message) {
+        super(message);
+    }
+}
+
+// Bank account class
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    // Method to perform transactions (deposit or withdraw)
+    public void performTransaction(double amount) throws InsufficientFundsException {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Transaction amount must be positive");
+        }
+
+        // Check if withdrawal exceeds balance
+        if (amount > balance) {
+            throw new InsufficientFundsException("Insufficient funds to withdraw: " + amount);
+        }
+
+        // Perform transaction
+        balance -= amount;
+        System.out.println("Transaction successful: $" + amount + " withdrawn");
+    }
+
+    // Method to deposit funds
+    public void deposit(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+
+        balance += amount;
+        System.out.println("Transaction successful: $" + amount + " deposited");
+    }
+
+    // Method to get account balance
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// Main class to demonstrate usage
+public class BankAccountMethods {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(1000);
+
+        try {
+            // Perform transactions
+            account.performTransaction(500); // Withdraw
+            account.performTransaction(200); // Withdraw
+            account.performTransaction(900); // Withdraw (throws exception)
+        } catch (InsufficientFundsException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // Deposit funds
+        account.deposit(300);
+
+        // Display final balance
+        System.out.println("Final balance: $" + account.getBalance());
+    }
+}
+
+
